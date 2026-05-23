@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 12959d2a158396b4dac3359b978602b1
+guid: 0dbc7e4803453bb4f8509caf95983185
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2551477095399853177
-    second: background_solitaire_0
+      213: -4905680913811516079
+    second: background_solitaire-export_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: background_solitaire_0
+      name: background_solitaire-export_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 720
-        height: 1280
+        width: 1920
+        height: 1080
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 783752c9915579cd0800000000000000
-      internalID: -2551477095399853177
+      spriteID: 155d9d643358bebb0800000000000000
+      internalID: -4905680913811516079
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      background_solitaire_0: -2551477095399853177
+      background_solitaire-export_0: -4905680913811516079
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
