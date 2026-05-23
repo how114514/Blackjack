@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f7bf278020f2284eaa6a92f3d981610, type: 3}
+  m_Name: SA
+  m_EditorClassIdentifier: Assembly-CSharp::CardDataSO
+  cardSuit: 0
+  cardRank: 12
+  cardSprite: {fileID: -407623809787531348, guid: 197ead2bb6c97d443b885afc76550605, type: 3}
