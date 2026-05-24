@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardDataSO
   cardSuit: 2
   cardRank: 6
+  cardValue: 8
   cardSprite: {fileID: -2263065194832786956, guid: 3c490423138095049855505784a671c1, type: 3}

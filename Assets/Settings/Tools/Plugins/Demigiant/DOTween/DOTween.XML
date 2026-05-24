@@ -1204,16 +1204,16 @@
             <summary>Pauses the tween when the link target is disabled</summary>
         </member>
         <member name="F:DG.Tweening.LinkBehaviour.PauseOnDisablePlayOnEnable">
-            <summary>Pauses the tween when the link target is disabled, plays it when it's enabled</summary>
+            <summary>Pauses the tween when the link target is disabled, plays it when it's interactable</summary>
         </member>
         <member name="F:DG.Tweening.LinkBehaviour.PauseOnDisableRestartOnEnable">
-            <summary>Pauses the tween when the link target is disabled, restarts it when it's enabled</summary>
+            <summary>Pauses the tween when the link target is disabled, restarts it when it's interactable</summary>
         </member>
         <member name="F:DG.Tweening.LinkBehaviour.PlayOnEnable">
-            <summary>Plays the tween when the link target is enabled</summary>
+            <summary>Plays the tween when the link target is interactable</summary>
         </member>
         <member name="F:DG.Tweening.LinkBehaviour.RestartOnEnable">
-            <summary>Restarts the tween when the link target is enabled</summary>
+            <summary>Restarts the tween when the link target is interactable</summary>
         </member>
         <member name="F:DG.Tweening.LinkBehaviour.KillOnDisable">
             <summary>Kills the tween when the link target is disabled</summary>
@@ -1336,7 +1336,7 @@
         <member name="F:DG.Tweening.RotateMode.LocalAxisAdd">
             <summary>
             Adds the given rotation to the transform's local axis
-            (like when rotating an object with the "local" switch enabled in Unity's editor or using transform.Rotate(Space.Self)).
+            (like when rotating an object with the "local" switch interactable in Unity's editor or using transform.Rotate(Space.Self)).
             <para>In this mode the end value is is always considered relative</para>
             </summary>
         </member>
@@ -2872,7 +2872,7 @@
         </member>
         <member name="M:DG.Tweening.TweenSettingsExtensions.SetOptions(DG.Tweening.Core.TweenerCore{System.String,System.String,DG.Tweening.Plugins.Options.StringOptions},System.Boolean,DG.Tweening.ScrambleMode,System.String)">
             <summary>Options for Vector4 tweens</summary>
-            <param name="richTextEnabled">If TRUE, rich text will be interpreted correctly while animated,
+            <param name="richTextinteractable">If TRUE, rich text will be interpreted correctly while animated,
             otherwise all tags will be considered as normal text</param>
             <param name="scrambleMode">The type of scramble to use, if any</param>
             <param name="scrambleChars">A string containing the characters to use for scrambling.

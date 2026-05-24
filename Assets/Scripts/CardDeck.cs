@@ -4,19 +4,21 @@ using UnityEngine;
 public class CardDeck : MonoBehaviour
 {
     [SerializeField] private List<CardDataSO> allCards;
+
+    [Header("Instantiate")]
     [SerializeField] private Transform playerArea;
     [SerializeField] private Transform dealerArea;
     [SerializeField] private CardView cardPrefab;
+
+    [Header("UI")]
     [SerializeField] private PlayerHandUI playerHandUI;
     [SerializeField] private DealerHandUI dealerHandUI;
 
-    private List<CardDataSO> deck = new();
+    [Header("List")]
+    [SerializeField] private PlayerHand playerHand;
+    [SerializeField] private DealerHand dealerHand;
 
-    private void Start()
-    {
-        InitDeck();
-        Shuffle();
-    }
+    private List<CardDataSO> deck = new();
 
     public void InitDeck()
     {
@@ -34,35 +36,45 @@ public class CardDeck : MonoBehaviour
         }
     }
 
-    [ContextMenu("DealToPlayer")]
-    public void DealToPlayer()
+    public void DealToPlayer(int count)
     {
-        CardDataSO card = DrawCard();
-        if (card == null) 
-            return;
+        int i;
+        for (i = count; i > 0; i--) 
+        {
+            CardDataSO card = DrawCard();
+            if (card == null)
+                return;
 
-        CardView cardView = Instantiate(cardPrefab, playerArea);
+            playerHand.AddCard(card);
 
-        cardView.Init(card);
+            CardView cardView = Instantiate(cardPrefab, playerArea);
 
-        playerHandUI.AddCard(cardView.transform as RectTransform);
+            cardView.Init(card);
+
+            playerHandUI.AddCard(cardView.transform as RectTransform);
+        }
     }
 
-    [ContextMenu("DealToDealer")]
-    public void DealToDealer()
+    public void DealToDealer(int count)
     {
-        CardDataSO card = DrawCard();
-        if (card == null)
-            return;
+        int i;
+        for (i = count; i > 0; i--)
+        {
+            CardDataSO card = DrawCard();
+            if (card == null)
+                return;
 
-        CardView cardView = Instantiate(cardPrefab, dealerArea);
+            dealerHand.AddCard(card);
 
-        cardView.Init(card);
+            CardView cardView = Instantiate(cardPrefab, dealerArea);
 
-        dealerHandUI.AddCard(cardView.transform as RectTransform);
+            cardView.Init(card);
+
+            dealerHandUI.AddCard(cardView.transform as RectTransform);
+        }
     }
 
-    public CardDataSO DrawCard()
+    private CardDataSO DrawCard()
     {
         if(deck.Count == 0)
             return null;
