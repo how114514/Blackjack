@@ -916,19 +916,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 147489892}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 623056400}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: DealOpeningCards
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &147489892
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2224,16 +2212,6 @@ MonoBehaviour:
   standButton: {fileID: 1253880957}
   betButtons:
   - {fileID: 147489891}
-  - {fileID: 1681463780}
-  - {fileID: 2081371937}
-  - {fileID: 1172534434}
-  - {fileID: 1783003236}
-  - {fileID: 1378565331}
-  - {fileID: 1093552114}
-  - {fileID: 139990801}
-  - {fileID: 1593555106}
-  - {fileID: 1175906502}
-  - {fileID: 1452309946}
   chipSystem: {fileID: 1862677953}
 --- !u!4 &623056401
 Transform:
@@ -2924,7 +2902,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 623056400}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: StartBetting
+        m_MethodName: StartNewRound
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

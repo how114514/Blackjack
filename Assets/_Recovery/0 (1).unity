@@ -2223,7 +2223,6 @@ MonoBehaviour:
   hitButton: {fileID: 1649544083}
   standButton: {fileID: 1253880957}
   betButtons:
-  - {fileID: 147489891}
   - {fileID: 1681463780}
   - {fileID: 2081371937}
   - {fileID: 1172534434}
@@ -2234,6 +2233,7 @@ MonoBehaviour:
   - {fileID: 1593555106}
   - {fileID: 1175906502}
   - {fileID: 1452309946}
+  - {fileID: 147489891}
   chipSystem: {fileID: 1862677953}
 --- !u!4 &623056401
 Transform:
@@ -2924,7 +2924,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 623056400}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: StartBetting
+        m_MethodName: EnableBettingUI
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

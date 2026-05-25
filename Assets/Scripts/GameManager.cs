@@ -1,22 +1,38 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private CardDeck deck;
+    [Header("UI")]
     [SerializeField] private PlayerHandUI playerHandUI;
     [SerializeField] private DealerHandUI dealerHandUI;
 
+    [Header("Card")]
+    [SerializeField] private CardDeck deck;
     [SerializeField] private PlayerHand playerHand;
     [SerializeField] private DealerHand dealerHand;
 
     [Header("Button")]
-    public Button startButton;
-    public Button hitButton;
-    public Button standButton;
+    [SerializeField] private Button startButton;
+    [SerializeField] private Button hitButton;
+    [SerializeField] private Button standButton;
+    [SerializeField] private List<Button> betButtons;
 
-    public void StartNewRound()
+    [Header("Chip")]
+    [SerializeField] private ChipSystem chipSystem;
+
+    private void Start()
     {
+        DisableBettingUI();
+        hitButton.interactable = false;
+        standButton.interactable = false;
+    }
+
+    public void DealOpeningCards()
+    {
+        DisableBettingUI();
+
         playerHand.ClearHand();
         playerHand.NewTurn();
         dealerHand.ClearHand();
@@ -32,7 +48,6 @@ public class GameManager : MonoBehaviour
         deck.DealToPlayer(1);
         deck.DealToDealer(1);
 
-        startButton.interactable = false;
         hitButton.interactable = true;
         standButton.interactable = true;
     }
@@ -51,19 +66,19 @@ public class GameManager : MonoBehaviour
     private void CheckWinner()
     {
         if (playerHand.CalculateHandValue() > 21)
-            Debug.Log("lose");
+            chipSystem.LoseBet();
         else
         {
             if (dealerHand.CalculateHandValue() > 21)
-                Debug.Log("win");
+                chipSystem.WinBet();
             else
             {
                 if (playerHand.CalculateHandValue() > dealerHand.CalculateHandValue())
-                    Debug.Log("win");
+                    chipSystem.WinBet();
                 else if (playerHand.CalculateHandValue() < dealerHand.CalculateHandValue())
-                    Debug.Log("lose");
+                    chipSystem.LoseBet();
                 else
-                    Debug.Log("push");
+                    chipSystem.Push();
             }
         }
 
@@ -76,5 +91,27 @@ public class GameManager : MonoBehaviour
 
         if (playerHand.isBust)
             hitButton.interactable = false;
+    }
+
+    public void StartBetting()
+    {
+        EnableBettingUI();
+        startButton.interactable = false;
+    }
+
+    private void EnableBettingUI()
+    {
+        foreach (Button button in betButtons)
+        {
+            button.interactable = true;
+        }
+    }
+
+    private void DisableBettingUI()
+    {
+        foreach (Button button in betButtons)
+        {
+            button.interactable = false;
+        }
     }
 }
