@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,26 +15,36 @@ public class GameManager : MonoBehaviour
     [Header("Button")]
     [SerializeField] private Button startButton;
     [SerializeField] private Button hitButton;
+    [SerializeField] private Button doubleDownButton;
     [SerializeField] private Button standButton;
-    [SerializeField] private List<Button> betButtons;
+    [SerializeField] private Button insuranceButton;
+    [SerializeField] private Button surrenderButton;
+
+    [Header("Area")]
+    [SerializeField] private GameObject betArea;
+    [SerializeField] private GameObject insuranceArea;
+
 
     [Header("Chip")]
     [SerializeField] private ChipSystem chipSystem;
 
+    private bool isSurrendered;
+
     private void Start()
     {
-        DisableBettingUI();
-        hitButton.interactable = false;
-        standButton.interactable = false;
+        betArea.SetActive(false);
+        insuranceArea.SetActive(false);
+        DisablePlayerActionButtons();
     }
 
     public void DealOpeningCards()
     {
-        DisableBettingUI();
+        betArea.SetActive(false);
 
         playerHand.ClearHand();
         playerHand.NewTurn();
         dealerHand.ClearHand();
+        dealerHand.NewTurn();
 
         playerHandUI.ClearHand();
         dealerHandUI.ClearHand();
@@ -47,15 +56,12 @@ public class GameManager : MonoBehaviour
         deck.DealToDealer(1);
         deck.DealToPlayer(1);
         deck.DealToDealer(1);
-
-        hitButton.interactable = true;
-        standButton.interactable = true;
+        EnablePlayerActionButtons();
     }
 
     public void StartDealerTurn()
     {
-        hitButton.interactable = false;
-        standButton.interactable = false;
+        DisablePlayerActionButtons();
 
         while (dealerHand.CalculateHandValue() < 17)
             deck.DealToDealer(1);
@@ -65,53 +71,110 @@ public class GameManager : MonoBehaviour
 
     private void CheckWinner()
     {
-        if (playerHand.CalculateHandValue() > 21)
+        startButton.interactable = true;
+
+        if(dealerHand.handType == HandType.Blackjack)
+        {
+            chipSystem.PayInsurance();
+        }
+
+        if (isSurrendered)
+        {
+            chipSystem.Surrender();
+            isSurrendered = false;
+            return;
+        }
+
+        HandType playerType = playerHand.handType;
+        HandType dealerType = dealerHand.handType;
+
+        if (playerType == HandType.Bust)
+            chipSystem.LoseBet();
+        else if (dealerType == HandType.Bust)
+            chipSystem.WinBet();
+        else if(playerType == HandType.Blackjack)
+        {
+            if (dealerType == HandType.Blackjack)
+                chipSystem.Push();
+            else
+                chipSystem.WinBet();
+        }
+        else if (dealerType == HandType.Blackjack)
             chipSystem.LoseBet();
         else
         {
-            if (dealerHand.CalculateHandValue() > 21)
-                chipSystem.WinBet();
-            else
-            {
-                if (playerHand.CalculateHandValue() > dealerHand.CalculateHandValue())
-                    chipSystem.WinBet();
-                else if (playerHand.CalculateHandValue() < dealerHand.CalculateHandValue())
-                    chipSystem.LoseBet();
-                else
-                    chipSystem.Push();
-            }
-        }
+            int playerValue = playerHand.CalculateHandValue();
+            int dealerValue = dealerHand.CalculateHandValue();
 
-        startButton.interactable = true;
+            if (playerValue > dealerValue)
+                chipSystem.WinBet();
+            else if (playerValue < dealerValue)
+                chipSystem.LoseBet();
+            else
+                chipSystem.Push();
+        }
     }
 
     public void PlayerHit()
     {
         deck.DealToPlayer(1);
-
-        if (playerHand.isBust)
-            hitButton.interactable = false;
     }
 
-    public void StartBetting()
+    public void DoubleDown()
     {
-        EnableBettingUI();
+        if(chipSystem.playerChip < chipSystem.currentBet)
+            return;
+
+        chipSystem.DoubleDown();
+
+        PlayerHit();
+
+        StartDealerTurn();
+    }
+
+    public void OpenBettingArea()
+    {
+        betArea.SetActive(true);
+
         startButton.interactable = false;
     }
 
-    private void EnableBettingUI()
+    public void Surrender()
     {
-        foreach (Button button in betButtons)
-        {
-            button.interactable = true;
-        }
+        isSurrendered = true;
+
+        DisablePlayerActionButtons();
+        CheckWinner();
     }
 
-    private void DisableBettingUI()
+    public void Insurance()
     {
-        foreach (Button button in betButtons)
-        {
-            button.interactable = false;
-        }
+        if (dealerHand.cards[0].cardRank != Rank.Ace)
+            return;
+
+        insuranceArea.SetActive(true);
+    }
+
+    private void DisablePlayerActionButtons()
+    {
+        hitButton.interactable = false;
+        doubleDownButton.interactable = false;
+        standButton.interactable = false;
+        insuranceButton.interactable = false;
+        surrenderButton.interactable = false;
+    }
+
+    private void EnablePlayerActionButtons()
+    {
+        hitButton.interactable = true;
+        standButton.interactable = true;
+        doubleDownButton.interactable = true;
+        surrenderButton.interactable = true;
+        insuranceButton.interactable = true;
+    }
+
+    public void HideInsuranceArea()
+    {
+        insuranceArea.SetActive(false);
     }
 }

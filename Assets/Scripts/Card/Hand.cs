@@ -4,6 +4,7 @@ using UnityEngine;
 public class Hand : MonoBehaviour
 {
     public List<CardDataSO> cards = new();
+    public HandType handType = HandType.Normal;
 
     public int CalculateHandValue()
     {
@@ -27,10 +28,29 @@ public class Hand : MonoBehaviour
     public virtual void AddCard(CardDataSO card)
     {
         cards.Add(card);
+
+        EvaluateHand();
     }
 
     public void ClearHand()
     {
         cards.Clear();
+    }
+
+    public void EvaluateHand()
+    {
+        int value = CalculateHandValue();
+
+        if (cards.Count == 2 && value == 21)
+            handType = HandType.Blackjack;
+        else if (value > 21)
+            handType = HandType.Bust;
+        else
+            handType = HandType.Normal;
+    }
+
+    public void NewTurn()
+    {
+        handType = HandType.Normal;
     }
 }

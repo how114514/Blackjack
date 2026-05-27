@@ -22,3 +22,10 @@ public enum Rank
     King,
     Ace
 }
+
+public enum HandType
+{
+    Normal,
+    Blackjack,
+    Bust
+}

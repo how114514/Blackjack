@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class ChipSystem : MonoBehaviour
 {
-    [SerializeField] private int playerChip;
-    [SerializeField] private int currentBet;
+    public int playerChip;
+    public int currentBet;
+    public int currentInsuranceBet;
 
+    [SerializeField] private PlayerHand playerHand;
     [SerializeField] private ChipViewManager chipViewManager;
     [SerializeField] private TMP_Text playerChipText;
 
@@ -23,31 +25,52 @@ public class ChipSystem : MonoBehaviour
     
     public void WinBet()
     {
-        playerChip += currentBet * 2;
-        currentBet = 0;
+        if (playerHand.handType == HandType.Blackjack)
+        {
+            playerChip += Mathf.RoundToInt(currentBet * 2.5f);
+        }
+        else
+        {
+            playerChip += currentBet * 2;
+        }
 
-        UpdateChipList();
-        chipViewManager.RefreshChipView(chipList);
-        playerChipText.text = playerChip.ToString();
+        currentBet = 0;
+        currentInsuranceBet = 0;
+
+        RefreshChipUI();
     }
 
     public void LoseBet()
     {
         currentBet = 0;
+        currentInsuranceBet = 0;
 
-        UpdateChipList();
-        chipViewManager.RefreshChipView(chipList);
-        playerChipText.text = playerChip.ToString();
+        RefreshChipUI();
     }
 
     public void Push()
     {
         playerChip += currentBet;
         currentBet = 0;
+        currentInsuranceBet = 0;
 
-        UpdateChipList();
-        chipViewManager.RefreshChipView(chipList);
-        playerChipText.text = playerChip.ToString();
+        RefreshChipUI();
+    }
+    public void Surrender()
+    {
+        playerChip += Mathf.RoundToInt(currentBet * 0.5f);
+        currentBet = 0;
+        currentInsuranceBet = 0;
+
+        RefreshChipUI();
+    }
+
+    public void PayInsurance()
+    {
+        playerChip += currentInsuranceBet * 3;
+        currentInsuranceBet = 0;
+
+        RefreshChipUI();
     }
 
     public void AdjustBet(int amount)
@@ -62,30 +85,64 @@ public class ChipSystem : MonoBehaviour
         playerChip -= amount;
 
 
-        UpdateChipList();
-        chipViewManager.RefreshChipView(chipList);
-        playerChipText.text = playerChip.ToString();
+        RefreshChipUI();
     }
 
+    public void AdjustInsurance(int amount)
+    {
+        if (playerChip < amount)
+            return;
+
+        if (currentInsuranceBet + amount < 0)
+            return;
+
+        if(currentInsuranceBet + amount > currentBet / 2)
+            return;
+
+        currentInsuranceBet += amount;
+        playerChip -= amount;
+
+        playerChipText.text = playerChip.ToString();
+    }
 
     public void BetAll()
     {
         currentBet += playerChip;
-        playerChip -= playerChip;
+        playerChip = 0;
 
-        UpdateChipList();
-        chipViewManager.RefreshChipView(chipList);
-        playerChipText.text = playerChip.ToString();
+        RefreshChipUI();
     }
 
     public void CancelBet()
     {
         playerChip += currentBet;
-        currentBet -= currentBet;
+        currentBet = 0;
 
-        UpdateChipList();
-        chipViewManager.RefreshChipView(chipList);
+        RefreshChipUI();
+    }
+
+    public void MaxInsurance()
+    {
+        playerChip -= currentBet / 2 - currentInsuranceBet;
+        currentInsuranceBet = currentBet / 2;
+
         playerChipText.text = playerChip.ToString();
+    }
+
+    public void CancelInsurance()
+    {
+        playerChip += currentInsuranceBet;
+        currentInsuranceBet = 0;
+
+        playerChipText.text = playerChip.ToString();
+    }
+
+    public void DoubleDown()
+    {
+        playerChip -= currentBet;
+        currentBet += currentBet;
+
+        RefreshChipUI();
     }
 
     private void UpdateChipList()
@@ -133,5 +190,12 @@ public class ChipSystem : MonoBehaviour
             chipList.Add(chip1);
             remaining -= 1;
         }
+    }
+
+    private void RefreshChipUI()
+    {
+        UpdateChipList();
+        chipViewManager.RefreshChipView(chipList);
+        playerChipText.text = playerChip.ToString();
     }
 }
