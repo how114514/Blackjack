@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ public class CardDeck : MonoBehaviour
     [Header("Instantiate")]
     [SerializeField] private Transform playerArea;
     [SerializeField] private Transform dealerArea;
+    [SerializeField] private RectTransform cardDeckArea;
     [SerializeField] private CardView cardPrefab;
 
     [Header("UI")]
@@ -36,41 +38,55 @@ public class CardDeck : MonoBehaviour
         }
     }
 
-    public void DealToPlayer(int count)
+    public IEnumerator DealToPlayer(int count, bool faceUp)
     {
-        int i;
-        for (i = count; i > 0; i--) 
+        for (int i = 0; i < count; i++)
         {
             CardDataSO card = DrawCard();
             if (card == null)
-                return;
-
-            playerHand.AddCard(card);
+                yield return null;
 
             CardView cardView = Instantiate(cardPrefab, playerArea);
+            RectTransform rect = cardView.transform as RectTransform;
 
-            cardView.Init(card);
+            playerHand.AddCard(card);
+            playerHandUI.cardViews.Add(cardView);
 
-            playerHandUI.AddCard(cardView.transform as RectTransform);
+            rect.position = cardDeckArea.position;
+
+            playerHandUI.LayoutAll();
+            StartCoroutine(cardView.RotateAnimation());
+
+            yield return new WaitForSeconds(0.2f);
+
+            if (faceUp)
+                cardView.Flip(card);
         }
     }
 
-    public void DealToDealer(int count)
+    public IEnumerator DealToDealer(int count, bool faceUp)
     {
-        int i;
-        for (i = count; i > 0; i--)
+        for (int i = 0; i < count; i++)
         {
             CardDataSO card = DrawCard();
             if (card == null)
-                return;
-
-            dealerHand.AddCard(card);
+                yield return null;
 
             CardView cardView = Instantiate(cardPrefab, dealerArea);
+            RectTransform rect = cardView.transform as RectTransform;
 
-            cardView.Init(card);
+            dealerHand.AddCard(card);
+            dealerHandUI.cardViews.Add(cardView);
 
-            dealerHandUI.AddCard(cardView.transform as RectTransform);
+            rect.position = cardDeckArea.position;
+
+            dealerHandUI.LayoutAll();
+            StartCoroutine(cardView.RotateAnimation());
+
+            yield return new WaitForSeconds(0.2f);
+
+            if (faceUp)
+                cardView.Flip(card);
         }
     }
 

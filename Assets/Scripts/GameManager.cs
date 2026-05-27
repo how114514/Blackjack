@@ -1,5 +1,6 @@
+using System;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,12 +14,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private DealerHand dealerHand;
 
     [Header("Button")]
-    [SerializeField] private Button startButton;
-    [SerializeField] private Button hitButton;
-    [SerializeField] private Button doubleDownButton;
-    [SerializeField] private Button standButton;
-    [SerializeField] private Button insuranceButton;
-    [SerializeField] private Button surrenderButton;
+    [SerializeField] private GameObject startButton;
+    [SerializeField] private GameObject hitButton;
+    [SerializeField] private GameObject doubleDownButton;
+    [SerializeField] private GameObject standButton;
+    [SerializeField] private GameObject insuranceButton;
+    [SerializeField] private GameObject surrenderButton;
 
     [Header("Area")]
     [SerializeField] private GameObject betArea;
@@ -34,10 +35,17 @@ public class GameManager : MonoBehaviour
     {
         betArea.SetActive(false);
         insuranceArea.SetActive(false);
+
         DisablePlayerActionButtons();
+        standButton.SetActive(false);
     }
 
-    public void DealOpeningCards()
+    public void ConfirmBet()
+    {
+        StartCoroutine(DealOpeningCards());
+    }
+
+    public IEnumerator DealOpeningCards()
     {
         betArea.SetActive(false);
 
@@ -52,26 +60,33 @@ public class GameManager : MonoBehaviour
         deck.InitDeck();
         deck.Shuffle();
 
-        deck.DealToPlayer(1);
-        deck.DealToDealer(1);
-        deck.DealToPlayer(1);
-        deck.DealToDealer(1);
+        StartCoroutine(deck.DealToPlayer(1, true));
+        yield return new WaitForSeconds(0.5f);
+        StartCoroutine(deck.DealToDealer(1, true));
+        yield return new WaitForSeconds(0.5f);
+        StartCoroutine(deck.DealToPlayer(1, true));
+        yield return new WaitForSeconds(0.5f);
+        StartCoroutine(deck.DealToDealer(1, false));
+
         EnablePlayerActionButtons();
     }
 
     public void StartDealerTurn()
     {
         DisablePlayerActionButtons();
+        standButton.SetActive(false);
+
+        dealerHandUI.cardViews[1].Flip(dealerHand.cards[1]);
 
         while (dealerHand.CalculateHandValue() < 17)
-            deck.DealToDealer(1);
+            deck.DealToDealer(1, true);
 
         CheckWinner();
     }
 
     private void CheckWinner()
     {
-        startButton.interactable = true;
+        startButton.SetActive(true);
 
         if(dealerHand.handType == HandType.Blackjack)
         {
@@ -117,7 +132,10 @@ public class GameManager : MonoBehaviour
 
     public void PlayerHit()
     {
-        deck.DealToPlayer(1);
+        if (playerHand.CalculateHandValue() > 21)
+            return;
+
+        StartCoroutine(deck.DealToPlayer(1, true));
     }
 
     public void DoubleDown()
@@ -136,7 +154,7 @@ public class GameManager : MonoBehaviour
     {
         betArea.SetActive(true);
 
-        startButton.interactable = false;
+        startButton.SetActive(false);
     }
 
     public void Surrender()
@@ -144,6 +162,8 @@ public class GameManager : MonoBehaviour
         isSurrendered = true;
 
         DisablePlayerActionButtons();
+        standButton.SetActive(false);
+
         CheckWinner();
     }
 
@@ -155,22 +175,21 @@ public class GameManager : MonoBehaviour
         insuranceArea.SetActive(true);
     }
 
-    private void DisablePlayerActionButtons()
+    public void DisablePlayerActionButtons()
     {
-        hitButton.interactable = false;
-        doubleDownButton.interactable = false;
-        standButton.interactable = false;
-        insuranceButton.interactable = false;
-        surrenderButton.interactable = false;
+        hitButton.SetActive(false);
+        doubleDownButton.SetActive(false);
+        insuranceButton.SetActive(false);
+        surrenderButton.SetActive(false);
     }
 
     private void EnablePlayerActionButtons()
     {
-        hitButton.interactable = true;
-        standButton.interactable = true;
-        doubleDownButton.interactable = true;
-        surrenderButton.interactable = true;
-        insuranceButton.interactable = true;
+        hitButton.SetActive(true);
+        doubleDownButton.SetActive(true);
+        standButton.SetActive(true);
+        insuranceButton.SetActive(true);
+        surrenderButton.SetActive(true);
     }
 
     public void HideInsuranceArea()
