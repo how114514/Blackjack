@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,7 @@ using UnityEngine;
 public class ChipViewManager : MonoBehaviour
 {
     [SerializeField] private ChipView chipPrefab;
+    [SerializeField] private List<ChipView> chipViews = new();
 
     [SerializeField] private Transform chip1Area;
     [SerializeField] private Transform chip5Area;
@@ -14,6 +16,9 @@ public class ChipViewManager : MonoBehaviour
     [SerializeField] private Transform chip500Area;
     [SerializeField] private Transform chip1000Area;
     [SerializeField] private Transform chip5000Area;
+
+    [SerializeField] private Transform playerIncomeTarget;
+    [SerializeField] private Transform playerPayoutTarget;
 
     [SerializeField] private List<Transform> chipAreas = new();
 
@@ -55,12 +60,26 @@ public class ChipViewManager : MonoBehaviour
 
             ChipView chipView = Instantiate(chipPrefab, targetArea);
             chipView.Init(chip);
+            chipViews.Add(chipView);
+
             StartCoroutine(StackChips());
         }
     }
 
+    public IEnumerator PayoutAnimation()
+    {
+        foreach (ChipView chip in chipViews)
+        {
+            yield return StartCoroutine(chip.MoveTo(playerPayoutTarget));
+        }
+
+        DestoryChip();
+    }
+
     private void DestoryChip()
     {
+        chipViews.Clear();   
+        
         foreach (Transform area in chipAreas)
         {
             foreach (Transform child in area)
@@ -87,5 +106,36 @@ public class ChipViewManager : MonoBehaviour
                 index++;
             }
         }
+    }
+    public IEnumerator SpawnIncomeChips(List<ChipDataSO> chips)
+    {
+        List<ChipView> spawned = new();
+
+        foreach (var chip in chips)
+        {
+            ChipView chipView = Instantiate(chipPrefab, playerPayoutTarget);
+
+            chipView.Init(chip);
+
+            spawned.Add(chipView);
+            chipViews.Add(chipView);
+
+            RectTransform rect = chipView.transform as RectTransform;
+
+            rect.position = playerPayoutTarget.position;
+
+            StartCoroutine(chipView.MoveTo(playerIncomeTarget));
+
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        yield return new WaitForSeconds(0.5f);
+
+        foreach (var chip in spawned)
+        {
+            Destroy(chip.gameObject);
+        }
+
+        spawned.Clear();
     }
 }

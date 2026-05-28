@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,5 +9,33 @@ public class ChipView : MonoBehaviour
     public void Init(ChipDataSO chipData)
     {
         image.sprite = chipData.chipSprite;
+    }
+
+    public IEnumerator MoveTo(Transform target)
+    {
+        RectTransform rect = transform as RectTransform;
+
+        Vector2 startPos = rect.position;
+
+        Vector2 targetPos = target.position;
+
+        float time = 0f;
+
+        float duration = 0.3f;
+
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+
+            float t = time / duration;
+
+            t = Mathf.SmoothStep(0, 1, t);
+
+            rect.position = Vector2.Lerp(startPos, targetPos, t);
+
+            yield return null;
+        }
+
+        rect.position = targetPos;
     }
 }

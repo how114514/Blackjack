@@ -36,11 +36,9 @@ public class CardView : MonoBehaviour
 
     public IEnumerator MoveAnimation(Vector2 targetPos)
     {
-        RectTransform rect =
-            transform as RectTransform;
+        RectTransform rect = transform as RectTransform;
 
-        Vector2 startPos =
-            rect.anchoredPosition;
+        Vector2 startPos = rect.anchoredPosition;
 
         float time = 0f;
         float duration = 0.2f;
@@ -50,9 +48,9 @@ public class CardView : MonoBehaviour
             time += Time.deltaTime;
 
             float t = time / duration;
+            t = Mathf.SmoothStep(0, 1, t);
 
-            rect.anchoredPosition =
-                Vector2.Lerp(startPos, targetPos, t);
+            rect.anchoredPosition = Vector2.Lerp(startPos, targetPos, t);
 
             yield return null;
         }
@@ -65,11 +63,9 @@ public class CardView : MonoBehaviour
         RectTransform rect =
             transform as RectTransform;
 
-        Quaternion startRot =
-            Quaternion.Euler(0, 0, 180f);
+        Quaternion startRot = Quaternion.Euler(0, 0, 180f);
 
-        Quaternion endRot =
-            Quaternion.identity;
+        Quaternion endRot = Quaternion.identity;
 
         rect.localRotation = startRot;
 
@@ -82,8 +78,7 @@ public class CardView : MonoBehaviour
 
             float t = time / duration;
 
-            rect.localRotation =
-                Quaternion.Lerp(startRot, endRot, t);
+            rect.localRotation = Quaternion.Lerp(startRot, endRot, t);
 
             yield return null;
         }

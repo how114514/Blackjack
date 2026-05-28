@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -9,7 +10,7 @@ public class ChipSystem : MonoBehaviour
     public int currentInsuranceBet;
 
     [SerializeField] private PlayerHand playerHand;
-    [SerializeField] private ChipViewManager chipViewManager;
+    public ChipViewManager chipViewManager;
     [SerializeField] private TMP_Text playerChipText;
 
     [SerializeField] private ChipDataSO chip1;
@@ -22,55 +23,66 @@ public class ChipSystem : MonoBehaviour
     [SerializeField] private ChipDataSO chip5000;
 
     public List<ChipDataSO> chipList = new();
-    
-    public void WinBet()
+
+    public IEnumerator WinBet()
+    {
+        int amount = CalculatePayout();
+        yield return StartCoroutine(ResolveBet(amount));
+    }
+
+    private int CalculatePayout()
     {
         if (playerHand.handType == HandType.Blackjack)
-        {
-            playerChip += Mathf.RoundToInt(currentBet * 2.5f);
-        }
+            return Mathf.RoundToInt(currentBet * 2.5f);
         else
-        {
-            playerChip += currentBet * 2;
-        }
-
-        currentBet = 0;
-        currentInsuranceBet = 0;
-
-        RefreshChipUI();
+            return currentBet * 2;
     }
 
-    public void LoseBet()
+    public IEnumerator LoseBet()
     {
         currentBet = 0;
         currentInsuranceBet = 0;
 
         RefreshChipUI();
+
+        yield return null;
     }
 
-    public void Push()
+    public IEnumerator Push()
     {
-        playerChip += currentBet;
+        int amount = currentBet;
+        yield return StartCoroutine(ResolveBet(amount));
+    }
+
+    public IEnumerator Surrender()
+    {
+        int amount = Mathf.RoundToInt(currentBet * 0.5f);
+        yield return StartCoroutine(ResolveBet(amount));
+    }
+
+    public IEnumerator PayInsurance()
+    {
+        int amount = currentInsuranceBet * 3;
+
+        currentInsuranceBet = 0;
+
+        yield return StartCoroutine(ResolveBet(amount));
+    }
+
+    private IEnumerator ResolveBet(int amount)
+    {
+        List<ChipDataSO> chips = BuildChipList(amount);
+
+        yield return StartCoroutine(chipViewManager.SpawnIncomeChips(chips));
+
+        int oldValue = playerChip;
+
+        playerChip += amount;
+
         currentBet = 0;
         currentInsuranceBet = 0;
 
-        RefreshChipUI();
-    }
-    public void Surrender()
-    {
-        playerChip += Mathf.RoundToInt(currentBet * 0.5f);
-        currentBet = 0;
-        currentInsuranceBet = 0;
-
-        RefreshChipUI();
-    }
-
-    public void PayInsurance()
-    {
-        playerChip += currentInsuranceBet * 3;
-        currentInsuranceBet = 0;
-
-        RefreshChipUI();
+        yield return StartCoroutine(RefreshChipUIAnimated(oldValue, playerChip));
     }
 
     public void AdjustBet(int amount)
@@ -192,10 +204,89 @@ public class ChipSystem : MonoBehaviour
         }
     }
 
+    private List<ChipDataSO> BuildChipList(int amount)
+    {
+        List<ChipDataSO> list = new List<ChipDataSO>();
+
+        int remaining = amount;
+
+        while (remaining >= 5000)
+        {
+            list.Add(chip5000);
+            remaining -= 5000;
+        }
+        while (remaining >= 1000)
+        {
+            list.Add(chip1000);
+            remaining -= 1000;
+        }
+        while (remaining >= 500)
+        {
+            list.Add(chip500);
+            remaining -= 500;
+        }
+        while (remaining >= 100)
+        {
+            list.Add(chip100);
+            remaining -= 100;
+        }
+        while (remaining >= 25)
+        {
+            list.Add(chip25);
+            remaining -= 25;
+        }
+        while (remaining >= 10)
+        {
+            list.Add(chip10);
+            remaining -= 10;
+        }
+        while (remaining >= 5)
+        {
+            list.Add(chip5);
+            remaining -= 5;
+        }
+        while (remaining >= 1)
+        {
+            list.Add(chip1);
+            remaining -= 1;
+        }
+
+        return list;
+    }
+
+    public IEnumerator RefreshChipUIAnimated(int from, int to)
+    {
+        UpdateChipList();
+        chipViewManager.RefreshChipView(chipList);
+
+        yield return StartCoroutine(AnimateChipText(from, to));
+    }
+
     private void RefreshChipUI()
     {
         UpdateChipList();
         chipViewManager.RefreshChipView(chipList);
         playerChipText.text = playerChip.ToString();
+    }
+
+    public IEnumerator AnimateChipText(int from, int to)
+    {
+        float duration = 1f;
+        float t = 0f;
+
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+
+            float lerp = t / duration;
+
+            int value = Mathf.RoundToInt(Mathf.Lerp(from, to, lerp));
+
+            playerChipText.text = value.ToString();
+
+            yield return null;
+        }
+
+        playerChipText.text = to.ToString();
     }
 }

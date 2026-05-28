@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -42,12 +41,14 @@ public class GameManager : MonoBehaviour
 
     public void ConfirmBet()
     {
-        StartCoroutine(DealOpeningCards());
+        StartCoroutine(GameFlow());
     }
 
-    public IEnumerator DealOpeningCards()
+    private IEnumerator GameFlow()
     {
         betArea.SetActive(false);
+
+        yield return StartCoroutine(PayoutPhase());
 
         playerHand.ClearHand();
         playerHand.NewTurn();
@@ -60,73 +61,83 @@ public class GameManager : MonoBehaviour
         deck.InitDeck();
         deck.Shuffle();
 
-        StartCoroutine(deck.DealToPlayer(1, true));
-        yield return new WaitForSeconds(0.5f);
-        StartCoroutine(deck.DealToDealer(1, true));
-        yield return new WaitForSeconds(0.5f);
-        StartCoroutine(deck.DealToPlayer(1, true));
-        yield return new WaitForSeconds(0.5f);
-        StartCoroutine(deck.DealToDealer(1, false));
+        yield return StartCoroutine(deck.DealToPlayer(1, true));
+        yield return StartCoroutine(deck.DealToDealer(1, true));
+        yield return StartCoroutine(deck.DealToPlayer(1, true));
+        yield return StartCoroutine(deck.DealToDealer(1, false));
 
         EnablePlayerActionButtons();
     }
 
+    private IEnumerator PayoutPhase()
+    {
+        yield return StartCoroutine(chipSystem.chipViewManager.PayoutAnimation());
+    }
+
     public void StartDealerTurn()
+    {
+        StartCoroutine(DealerTurnCoroutine());
+    }
+
+    private IEnumerator DealerTurnCoroutine()
     {
         DisablePlayerActionButtons();
         standButton.SetActive(false);
 
         dealerHandUI.cardViews[1].Flip(dealerHand.cards[1]);
 
-        while (dealerHand.CalculateHandValue() < 17)
-            deck.DealToDealer(1, true);
+        yield return new WaitForSeconds(0.2f);
 
-        CheckWinner();
+        while (dealerHand.CalculateHandValue() < 17)
+        {
+            yield return StartCoroutine(deck.DealToDealer(1, true));
+            yield return new WaitForSeconds(0.2f);
+        }
+
+        StartCoroutine(CheckWinner());
     }
 
-    private void CheckWinner()
+    private IEnumerator CheckWinner()
     {
         startButton.SetActive(true);
 
         if(dealerHand.handType == HandType.Blackjack)
-        {
-            chipSystem.PayInsurance();
-        }
+            yield return StartCoroutine(chipSystem.PayInsurance());
 
         if (isSurrendered)
         {
-            chipSystem.Surrender();
+            yield return StartCoroutine(chipSystem.Surrender());
             isSurrendered = false;
-            return;
+            yield return null;
         }
 
         HandType playerType = playerHand.handType;
         HandType dealerType = dealerHand.handType;
 
         if (playerType == HandType.Bust)
-            chipSystem.LoseBet();
+            StartCoroutine(chipSystem.LoseBet());
         else if (dealerType == HandType.Bust)
-            chipSystem.WinBet();
+            StartCoroutine(chipSystem.WinBet());
         else if(playerType == HandType.Blackjack)
         {
             if (dealerType == HandType.Blackjack)
-                chipSystem.Push();
+                yield return StartCoroutine(chipSystem.Push());
             else
-                chipSystem.WinBet();
+                yield return StartCoroutine(chipSystem.WinBet());
         }
         else if (dealerType == HandType.Blackjack)
-            chipSystem.LoseBet();
+            yield return StartCoroutine(chipSystem.LoseBet());
         else
         {
             int playerValue = playerHand.CalculateHandValue();
             int dealerValue = dealerHand.CalculateHandValue();
 
             if (playerValue > dealerValue)
-                chipSystem.WinBet();
+                yield return StartCoroutine(chipSystem.WinBet());
             else if (playerValue < dealerValue)
-                chipSystem.LoseBet();
+                yield return StartCoroutine(chipSystem.LoseBet());
             else
-                chipSystem.Push();
+                yield return StartCoroutine(chipSystem.Push());
         }
     }
 
