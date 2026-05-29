@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerHand : Hand
 {
-    [SerializeField] private GameManager gameManager;
+    [SerializeField] private GameFlowController gameManager;
 
     public override void AddCard(CardDataSO card)
     {

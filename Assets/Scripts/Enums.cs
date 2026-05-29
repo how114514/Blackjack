@@ -29,3 +29,9 @@ public enum HandType
     Blackjack,
     Bust
 }
+
+public enum DealTarget
+{
+    Player,
+    Dealer
+}

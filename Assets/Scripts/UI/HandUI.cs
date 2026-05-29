@@ -7,6 +7,7 @@ public class HandUI : MonoBehaviour
 
     public List<CardView> cardViews = new();
 
+    //根据当前手牌数量重新布局卡牌，使其均匀分布在UI区域内
     public void LayoutAll()
     {
         int total = cardViews.Count;
@@ -22,17 +23,18 @@ public class HandUI : MonoBehaviour
 
             Vector2 targetPos = new Vector2(startX + i * spacing, 0);
 
-            cardViews[i].StartCoroutine(cardViews[i].MoveAnimation(targetPos));
+            StartCoroutine(cardViews[i].MoveAnimation(targetPos));
         }
     }
 
+    //清空手牌UI，销毁所有卡牌视图并清空列表
     public void ClearHand()
     {
-        cardViews.Clear();
-
         foreach (Transform child in transform)
         {
             Destroy(child.gameObject);
         }
+
+        cardViews.Clear();
     }
 }

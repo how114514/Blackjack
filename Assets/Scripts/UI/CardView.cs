@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,6 +12,7 @@ public class CardView : MonoBehaviour
         StartCoroutine(FlipAnimation(cardData));
     }
 
+    //卡牌翻转动画
     private IEnumerator FlipAnimation(CardDataSO cardData)
     {
         float duration = 0.2f;
@@ -34,10 +36,10 @@ public class CardView : MonoBehaviour
         image.rectTransform.localScale = scale;
     }
 
+    //卡牌移动动画
     public IEnumerator MoveAnimation(Vector2 targetPos)
     {
         RectTransform rect = transform as RectTransform;
-
         Vector2 startPos = rect.anchoredPosition;
 
         float time = 0f;
@@ -46,7 +48,6 @@ public class CardView : MonoBehaviour
         while (time < duration)
         {
             time += Time.deltaTime;
-
             float t = time / duration;
             t = Mathf.SmoothStep(0, 1, t);
 
@@ -58,6 +59,7 @@ public class CardView : MonoBehaviour
         rect.anchoredPosition = targetPos;
     }
 
+    //卡牌旋转动画
     public IEnumerator RotateAnimation()
     {
         RectTransform rect =

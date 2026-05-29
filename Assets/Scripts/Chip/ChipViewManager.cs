@@ -1,13 +1,14 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ChipViewManager : MonoBehaviour
 {
+    [Header("Chip View")]
     [SerializeField] private ChipView chipPrefab;
     [SerializeField] private List<ChipView> chipViews = new();
 
+    [Header("Chip Areas")]
     [SerializeField] private Transform chip1Area;
     [SerializeField] private Transform chip5Area;
     [SerializeField] private Transform chip10Area;
@@ -16,56 +17,44 @@ public class ChipViewManager : MonoBehaviour
     [SerializeField] private Transform chip500Area;
     [SerializeField] private Transform chip1000Area;
     [SerializeField] private Transform chip5000Area;
+    [SerializeField] private List<Transform> chipAreas = new();
+    private Dictionary<int, Transform> chipAreaMap;
 
+    [Header("Chip Targets")]
     [SerializeField] private Transform playerIncomeTarget;
     [SerializeField] private Transform playerPayoutTarget;
 
-    [SerializeField] private List<Transform> chipAreas = new();
-
-    public void RefreshChipView(List<ChipDataSO> list)
+    private void Awake()
     {
-        DestoryChip();
+        chipAreaMap = new Dictionary<int, Transform>()
+        {
+            { 1, chip1Area }, { 5, chip5Area },
+            { 10, chip10Area }, { 25, chip25Area },
+            { 100, chip100Area }, { 500, chip500Area },
+            { 1000, chip1000Area }, { 5000, chip5000Area }
+        };
+    }
+
+    //根据筹码数据列表刷新筹码视图，先销毁现有的筹码视图，然后根据数据创建新的筹码视图并堆叠在对应区域内
+    public IEnumerator RefreshChipView(List<ChipDataSO> list)
+    {
+        DestroyChip();
+
+        yield return null;
 
         foreach (ChipDataSO chip in list)
         {
-            Transform targetArea = null;
-
-            switch (chip.value)
-            {
-                case 1:
-                    targetArea = chip1Area;
-                    break;
-                case 5:
-                    targetArea = chip5Area;
-                    break;
-                case 10:
-                    targetArea = chip10Area;
-                    break;
-                case 25:
-                    targetArea = chip25Area;
-                    break;
-                case 100:
-                    targetArea = chip100Area;
-                    break;
-                case 500:
-                    targetArea = chip500Area;
-                    break;
-                case 1000:
-                    targetArea = chip1000Area;
-                    break;
-                case 5000:
-                    targetArea = chip5000Area;
-                    break;
-            }
+            Transform targetArea = chipAreaMap[chip.value];
 
             ChipView chipView = Instantiate(chipPrefab, targetArea);
             chipView.Init(chip);
             chipViews.Add(chipView);
-
-            StartCoroutine(StackChips());
         }
+
+        yield return StartCoroutine(StackChips());
     }
 
+    //将筹码移动到屏幕上方位置，模拟玩家支付筹码的动画效果
     public IEnumerator PayoutAnimation()
     {
         foreach (ChipView chip in chipViews)
@@ -73,10 +62,11 @@ public class ChipViewManager : MonoBehaviour
             yield return StartCoroutine(chip.MoveTo(playerPayoutTarget));
         }
 
-        DestoryChip();
+        DestroyChip();
     }
 
-    private void DestoryChip()
+    //销毁所有筹码视图，清空列表并删除对应的游戏对象
+    private void DestroyChip()
     {
         chipViews.Clear();   
         
@@ -89,10 +79,9 @@ public class ChipViewManager : MonoBehaviour
         }
     }
 
+    //将筹码在对应区域内堆叠，每个筹码之间有一定的间距
     private IEnumerator StackChips()
     {
-        yield return null;
-
         foreach (Transform area in chipAreas)
         {
             int index = 0;
@@ -106,7 +95,11 @@ public class ChipViewManager : MonoBehaviour
                 index++;
             }
         }
+
+        yield return null;
     }
+
+    //将筹码从屏幕上方位置移动到屏幕下方位置，模拟玩家赢得筹码的动画效果
     public IEnumerator SpawnIncomeChips(List<ChipDataSO> chips)
     {
         List<ChipView> spawned = new();
@@ -114,14 +107,11 @@ public class ChipViewManager : MonoBehaviour
         foreach (var chip in chips)
         {
             ChipView chipView = Instantiate(chipPrefab, playerPayoutTarget);
-
             chipView.Init(chip);
 
             spawned.Add(chipView);
-            chipViews.Add(chipView);
 
             RectTransform rect = chipView.transform as RectTransform;
-
             rect.position = playerPayoutTarget.position;
 
             StartCoroutine(chipView.MoveTo(playerIncomeTarget));
@@ -132,7 +122,7 @@ public class ChipViewManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         foreach (var chip in spawned)
-        {
+        {     
             Destroy(chip.gameObject);
         }
 

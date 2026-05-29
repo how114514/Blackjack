@@ -20,14 +20,19 @@ public class CardDeck : MonoBehaviour
     [SerializeField] private PlayerHand playerHand;
     [SerializeField] private DealerHand dealerHand;
 
+    [Header("sound")]
+    [SerializeField] private SFXManager sFX;
+
     private List<CardDataSO> deck = new();
 
+    //初始化牌堆
     public void InitDeck()
     {
         deck.Clear();
         deck.AddRange(allCards);
     }
 
+    //洗牌
     public void Shuffle()
     {
         for (int i = 0; i < deck.Count; i++)
@@ -38,65 +43,63 @@ public class CardDeck : MonoBehaviour
         }
     }
 
-    public IEnumerator DealToPlayer(int count, bool faceUp)
+    //发牌
+    public IEnumerator DealCard(DealTarget target, bool faceUp)
     {
-        for (int i = 0; i < count; i++)
+        CardDataSO card = DrawCard();
+
+        if (card == null)
+            yield break;
+
+        Hand hand = null;
+        HandUI handUI = null;
+        Transform area = null;
+
+        switch (target)
         {
-            CardDataSO card = DrawCard();
-            if (card == null)
-                yield return null;
+            case DealTarget.Player:
+                hand = playerHand;
+                handUI = playerHandUI;
+                area = playerArea;
+                break;
+            case DealTarget.Dealer:
+                hand = dealerHand;
+                handUI = dealerHandUI;
+                area = dealerArea;
+                break;
+        }
 
-            CardView cardView = Instantiate(cardPrefab, playerArea);
-            RectTransform rect = cardView.transform as RectTransform;
+        CardView cardView = Instantiate(cardPrefab, area);
+        RectTransform rect = cardView.transform as RectTransform;
 
-            playerHand.AddCard(card);
-            playerHandUI.cardViews.Add(cardView);
+        hand.AddCard(card);
+        handUI.cardViews.Add(cardView);
 
-            rect.position = cardDeckArea.position;
+        sFX.PlayDeal();
+        rect.position = cardDeckArea.position;
+        handUI.LayoutAll();
+        yield return StartCoroutine(cardView.RotateAnimation());
 
-            playerHandUI.LayoutAll();
-            StartCoroutine(cardView.RotateAnimation());
-
-            yield return new WaitForSeconds(0.2f);
-
-            if (faceUp)
-                cardView.Flip(card);
+        if (faceUp)
+        {
+            PlayFlipSFX();
+            cardView.Flip(card);
         }
     }
 
-    public IEnumerator DealToDealer(int count, bool faceUp)
+    //翻牌音效
+    public void PlayFlipSFX()
     {
-        for (int i = 0; i < count; i++)
-        {
-            CardDataSO card = DrawCard();
-            if (card == null)
-                yield return null;
-
-            CardView cardView = Instantiate(cardPrefab, dealerArea);
-            RectTransform rect = cardView.transform as RectTransform;
-
-            dealerHand.AddCard(card);
-            dealerHandUI.cardViews.Add(cardView);
-
-            rect.position = cardDeckArea.position;
-
-            dealerHandUI.LayoutAll();
-            StartCoroutine(cardView.RotateAnimation());
-
-            yield return new WaitForSeconds(0.2f);
-
-            if (faceUp)
-                cardView.Flip(card);
-        }
+        sFX.PlayFlip();
     }
 
+    //抽牌
     private CardDataSO DrawCard()
     {
         if(deck.Count == 0)
             return null;
 
         CardDataSO cardData = deck[0];
-
         deck.RemoveAt(0);
 
         return cardData;
