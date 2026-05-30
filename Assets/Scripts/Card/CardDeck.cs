@@ -83,7 +83,7 @@ public class CardDeck : MonoBehaviour
         if (faceUp)
         {
             PlayFlipSFX();
-            cardView.Flip(card);
+            yield return StartCoroutine(cardView.FlipAnimation(card));
         }
     }
 

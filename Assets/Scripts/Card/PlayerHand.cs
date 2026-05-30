@@ -2,15 +2,26 @@ using UnityEngine;
 
 public class PlayerHand : Hand
 {
-    [SerializeField] private GameFlowController gameManager;
+    [SerializeField] private ScreenFlash screenFlash;
+    [SerializeField] private SFXManager sFX;
 
-    public override void AddCard(CardDataSO card)
+    public override void EvaluateHand()
     {
-        base.AddCard(card);
+        int value = CalculateHandValue();
 
-        if(handType == HandType.Bust)
-        {
-            gameManager.DisablePlayerActionButtons();
+        if (cards.Count == 2 && value == 21)
+        { 
+            handType = HandType.Blackjack;
+            screenFlash.BlackjackFlash();
+            sFX.PlayBlackjack();
         }
+        else if (value > 21)
+        {
+            handType = HandType.Bust;
+            screenFlash.BustFlash();
+            sFX.PlayLose();
+        }
+        else
+            handType = HandType.Normal;
     }
 }

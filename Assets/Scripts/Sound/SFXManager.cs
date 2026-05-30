@@ -6,40 +6,36 @@ public class SFXManager : MonoBehaviour
 
     [SerializeField] private AudioSource sfxSource;
 
-    [Header("Clips")]
+    [Header("Card SFX")]
     [SerializeField] private AudioClip dealClip;
     [SerializeField] private AudioClip chipClip;
     [SerializeField] private AudioClip flipClip;
+
+    [Header("Result SFX")]
+    [SerializeField] private AudioClip winClip;
+    [SerializeField] private AudioClip loseClip;
+    [SerializeField] private AudioClip blackjackClip;
+    [SerializeField] private AudioClip pushClip;
 
     private void Awake()
     {
         Instance = this;
     }
 
-    public void PlayDeal()
-    {
-        Play(dealClip);
-    }
+    public void PlayDeal() => Play(dealClip);
+    public void PlayChip() => Play(chipClip);
+    public void PlayFlip() => Play(flipClip);
 
-    public void PlayChip()
-    {
-        Play(chipClip);
-    }
-
-    public void PlayFlip()
-    {
-        Play(flipClip);
-    }
+    public void PlayWin() => Play(winClip);
+    public void PlayLose() => Play(loseClip);
+    public void PlayBlackjack() => Play(blackjackClip);
+    public void PlayPush() => Play(pushClip);
 
     private void Play(AudioClip clip)
     {
         if (clip == null) return;
 
-        sfxSource.Stop();
-
-        sfxSource.clip = clip;
         sfxSource.pitch = Random.Range(0.95f, 1.05f);
-
-        sfxSource.Play();
+        sfxSource.PlayOneShot(clip);
     }
 }

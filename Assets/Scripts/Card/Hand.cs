@@ -35,7 +35,7 @@ public class Hand : MonoBehaviour
     }
 
     //评估手牌类型，根据当前的牌和点数来确定是正常、黑杰克还是爆牌
-    private void EvaluateHand()
+    public virtual void EvaluateHand()
     {
         int value = CalculateHandValue();
 

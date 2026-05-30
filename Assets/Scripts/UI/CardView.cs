@@ -7,13 +7,8 @@ public class CardView : MonoBehaviour
 {
     [SerializeField] private Image image;
 
-    public void Flip(CardDataSO cardData)
-    {
-        StartCoroutine(FlipAnimation(cardData));
-    }
-
     //卡牌翻转动画
-    private IEnumerator FlipAnimation(CardDataSO cardData)
+    public IEnumerator FlipAnimation(CardDataSO cardData)
     {
         float duration = 0.2f;
 

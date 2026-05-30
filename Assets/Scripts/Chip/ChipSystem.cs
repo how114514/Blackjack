@@ -10,6 +10,7 @@ public class ChipSystem : MonoBehaviour
     public int currentInsuranceBet;
 
     public ChipViewManager chipViewManager;
+    [SerializeField] private ScreenFlash screenFlash;
     [SerializeField] private SFXManager sFX;
     [SerializeField] private PlayerHand playerHand;
     [SerializeField] private TMP_Text playerChipText;
@@ -76,6 +77,8 @@ public class ChipSystem : MonoBehaviour
     public IEnumerator WinBet()
     {
         int amount = CalculatePayout();
+        screenFlash.WinFlash();
+        sFX.PlayWin();
         yield return StartCoroutine(ResolveIncome(amount));
     }
 
@@ -84,6 +87,7 @@ public class ChipSystem : MonoBehaviour
     {
         currentBet = 0;
         currentInsuranceBet = 0;
+        sFX.PlayLose();
         yield return null;
     }
 
@@ -91,6 +95,7 @@ public class ChipSystem : MonoBehaviour
     public IEnumerator Push()
     {
         int amount = currentBet;
+        sFX.PlayPush();
         yield return StartCoroutine(ResolveIncome(amount));
     }
 
@@ -98,6 +103,7 @@ public class ChipSystem : MonoBehaviour
     public IEnumerator Surrender()
     {
         int amount = Mathf.RoundToInt(currentBet * 0.5f);
+        sFX.PlayLose();
         yield return StartCoroutine(ResolveIncome(amount));
     }
 
@@ -105,6 +111,7 @@ public class ChipSystem : MonoBehaviour
     public IEnumerator PayInsurance()
     {
         int amount = currentInsuranceBet * 3;
+        sFX.PlayWin();
         yield return StartCoroutine(ResolveIncome(amount));
     }
 
