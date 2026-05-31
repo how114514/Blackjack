@@ -8,19 +8,16 @@ public class ScreenFlash : MonoBehaviour
 
     private Coroutine current;
 
-    [ContextMenu("Test Bust Flash")]
     public void BustFlash()
     {
         Play(Color.red, 0.25f, 1f);
     }
 
-    [ContextMenu("Test Win Flash")]
     public void WinFlash()
     {
         Play(Color.white, 0.2f, 1f);
     }
 
-    [ContextMenu("Test Blackjack Flash")]
     public void BlackjackFlash()
     {
         Play(new Color(1f, 0.85f, 0.2f), 0.3f, 1f);

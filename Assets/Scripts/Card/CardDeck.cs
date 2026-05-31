@@ -20,9 +20,6 @@ public class CardDeck : MonoBehaviour
     [SerializeField] private PlayerHand playerHand;
     [SerializeField] private DealerHand dealerHand;
 
-    [Header("sound")]
-    [SerializeField] private SFXManager sFX;
-
     private List<CardDataSO> deck = new();
 
     //初始化牌堆
@@ -75,22 +72,14 @@ public class CardDeck : MonoBehaviour
         hand.AddCard(card);
         handUI.cardViews.Add(cardView);
 
-        sFX.PlayDeal();
         rect.position = cardDeckArea.position;
         handUI.LayoutAll();
         yield return StartCoroutine(cardView.RotateAnimation());
 
         if (faceUp)
         {
-            PlayFlipSFX();
             yield return StartCoroutine(cardView.FlipAnimation(card));
         }
-    }
-
-    //翻牌音效
-    public void PlayFlipSFX()
-    {
-        sFX.PlayFlip();
     }
 
     //抽牌

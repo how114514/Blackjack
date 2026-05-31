@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class PlayerHand : Hand
 {
-    [SerializeField] private ScreenFlash screenFlash;
-    [SerializeField] private SFXManager sFX;
-
+    [SerializeField] private GameEventSO playerBlackjackEvent;
+    [SerializeField] private GameEventSO playerBustEvent;
+    
     public override void EvaluateHand()
     {
         int value = CalculateHandValue();
@@ -12,14 +12,12 @@ public class PlayerHand : Hand
         if (cards.Count == 2 && value == 21)
         { 
             handType = HandType.Blackjack;
-            screenFlash.BlackjackFlash();
-            sFX.PlayBlackjack();
+            playerBlackjackEvent.Raise();
         }
         else if (value > 21)
         {
             handType = HandType.Bust;
-            screenFlash.BustFlash();
-            sFX.PlayLose();
+            playerBustEvent.Raise();
         }
         else
             handType = HandType.Normal;

@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,10 +5,13 @@ using UnityEngine.UI;
 public class CardView : MonoBehaviour
 {
     [SerializeField] private Image image;
+    [SerializeField] private CardSFX cardSFX;
 
     //卡牌翻转动画
     public IEnumerator FlipAnimation(CardDataSO cardData)
     {
+        cardSFX.PlayFlip();
+
         float duration = 0.2f;
 
         Vector3 scale = image.rectTransform.localScale;
@@ -57,8 +59,9 @@ public class CardView : MonoBehaviour
     //卡牌旋转动画
     public IEnumerator RotateAnimation()
     {
-        RectTransform rect =
-            transform as RectTransform;
+        cardSFX.PlayDeal();
+
+        RectTransform rect = transform as RectTransform;
 
         Quaternion startRot = Quaternion.Euler(0, 0, 180f);
 

@@ -11,7 +11,6 @@ public class ChipSystem : MonoBehaviour
 
     public ChipViewManager chipViewManager;
     [SerializeField] private ScreenFlash screenFlash;
-    [SerializeField] private SFXManager sFX;
     [SerializeField] private PlayerHand playerHand;
     [SerializeField] private TMP_Text playerChipText;
 
@@ -74,45 +73,38 @@ public class ChipSystem : MonoBehaviour
     }
 
     //处理玩家赢得的金额，首先根据金额构建筹码数据列表，然后调用ChipViewManager生成收入筹码的动画，最后更新玩家筹码数量并播放文本动画
-    public IEnumerator WinBet()
+    public void WinBet()
     {
         int amount = CalculatePayout();
-        screenFlash.WinFlash();
-        sFX.PlayWin();
-        yield return StartCoroutine(ResolveIncome(amount));
+        StartCoroutine(ResolveIncome(amount));
     }
 
     //处理玩家输掉的金额，重置当前投注和保险投注为0
-    public IEnumerator LoseBet()
+    public void LoseBet()
     {
         currentBet = 0;
         currentInsuranceBet = 0;
-        sFX.PlayLose();
-        yield return null;
     }
 
     //处理玩家平局的情况，首先根据当前投注金额构建筹码数据列表，然后调用ChipViewManager生成收入筹码的动画，最后更新玩家筹码数量并播放文本动画
-    public IEnumerator Push()
+    public void Push()
     {
         int amount = currentBet;
-        sFX.PlayPush();
-        yield return StartCoroutine(ResolveIncome(amount));
+        StartCoroutine(ResolveIncome(amount));
     }
 
     //处理玩家投降的情况，首先计算玩家应该退回的金额（当前投注的一半），然后调用ResolveIncome方法处理收入动画和筹码数量更新
-    public IEnumerator Surrender()
+    public void Surrender()
     {
         int amount = Mathf.RoundToInt(currentBet * 0.5f);
-        sFX.PlayLose();
-        yield return StartCoroutine(ResolveIncome(amount));
+        StartCoroutine(ResolveIncome(amount));
     }
 
     //处理玩家赢得保险投注的情况，首先计算玩家应该获得的金额（当前保险投注的三倍），然后调用ResolveIncome方法处理收入动画和筹码数量更新
-    public IEnumerator PayInsurance()
+    public void PayInsurance()
     {
         int amount = currentInsuranceBet * 3;
-        sFX.PlayWin();
-        yield return StartCoroutine(ResolveIncome(amount));
+        StartCoroutine(ResolveIncome(amount));
     }
 
     //处理玩家赢得的金额，首先根据金额构建筹码数据列表，然后调用ChipViewManager生成收入筹码的动画，最后更新玩家筹码数量并播放文本动画
@@ -221,8 +213,6 @@ public class ChipSystem : MonoBehaviour
     //当玩家的投注或保险投注发生变化时调用，首先根据新的投注金额构建筹码数据列表，然后调用ChipViewManager刷新筹码视图以反映新的投注状态，最后更新玩家筹码数量的文本显示
     private void OnChipCommitted(int amount)
     {
-        sFX.PlayChip();
-
         chipList = BuildChipList(amount);
         StartCoroutine(chipViewManager.RefreshChipView(chipList));
         playerChipText.text = playerChip.ToString();

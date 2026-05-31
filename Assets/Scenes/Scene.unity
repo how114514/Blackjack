@@ -5252,8 +5252,13 @@ GameObject:
   m_Component:
   - component: {fileID: 53764109}
   - component: {fileID: 53764110}
-  - component: {fileID: 53764111}
   - component: {fileID: 53764112}
+  - component: {fileID: 53764111}
+  - component: {fileID: 53764113}
+  - component: {fileID: 53764114}
+  - component: {fileID: 53764115}
+  - component: {fileID: 53764116}
+  - component: {fileID: 53764117}
   m_Layer: 5
   m_Name: Chip Area
   m_TagString: Untagged
@@ -5295,6 +5300,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b34321cf90bd164b9bcefd9cbed676f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChipViewManager
+  sFX: {fileID: 1710332510}
   chipPrefab: {fileID: 2041104483462374380, guid: 90b793ee5147baa42877add7b1653e6f, type: 3}
   chipViews: []
   chip1Area: {fileID: 1689165852}
@@ -5359,7 +5365,6 @@ MonoBehaviour:
   currentInsuranceBet: 0
   chipViewManager: {fileID: 53764110}
   screenFlash: {fileID: 669439599}
-  sFX: {fileID: 1710332510}
   playerHand: {fileID: 1608114252}
   playerChipText: {fileID: 507451090}
   chip1: {fileID: 11400000, guid: dd0f6caec6f042543b9e20f5c38e67a5, type: 2}
@@ -5371,6 +5376,146 @@ MonoBehaviour:
   chip1000: {fileID: 11400000, guid: a7abdb787e84b274980cea353da7983f, type: 2}
   chip5000: {fileID: 11400000, guid: 46a7e94a085af7a49b91344b4e7935a0, type: 2}
   chipList: []
+--- !u!114 &53764113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 53764108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54cec36db5612784fba096d357a8393b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventListener
+  gameEvent: {fileID: 11400000, guid: 7658e4d3a55047046bb41fd9d42509a6, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 53764112}
+        m_TargetAssemblyTypeName: ChipSystem, Assembly-CSharp
+        m_MethodName: WinBet
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &53764114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 53764108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54cec36db5612784fba096d357a8393b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventListener
+  gameEvent: {fileID: 11400000, guid: 805f4ad201eb4b04cbd3e830fb0e51cf, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 53764112}
+        m_TargetAssemblyTypeName: ChipSystem, Assembly-CSharp
+        m_MethodName: LoseBet
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &53764115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 53764108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54cec36db5612784fba096d357a8393b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventListener
+  gameEvent: {fileID: 11400000, guid: c0524762256b0eb46b27eddaa8f9cb7e, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 53764112}
+        m_TargetAssemblyTypeName: ChipSystem, Assembly-CSharp
+        m_MethodName: Push
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &53764116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 53764108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54cec36db5612784fba096d357a8393b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventListener
+  gameEvent: {fileID: 11400000, guid: cbbf3cb420d6a7e4bbef4d8fab788987, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 53764112}
+        m_TargetAssemblyTypeName: ChipSystem, Assembly-CSharp
+        m_MethodName: Surrender
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &53764117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 53764108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54cec36db5612784fba096d357a8393b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventListener
+  gameEvent: {fileID: 11400000, guid: c9f21573294d4dd4aa85d3cb15f2b97f, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 53764112}
+        m_TargetAssemblyTypeName: ChipSystem, Assembly-CSharp
+        m_MethodName: PayInsurance
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &139990799
 GameObject:
   m_ObjectHideFlags: 0
@@ -8631,6 +8776,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56a7836f28186454c8639546d8677429, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  playerWinEvent: {fileID: 11400000, guid: 7658e4d3a55047046bb41fd9d42509a6, type: 2}
+  playerLoseEvent: {fileID: 11400000, guid: 805f4ad201eb4b04cbd3e830fb0e51cf, type: 2}
+  pushEvent: {fileID: 11400000, guid: c0524762256b0eb46b27eddaa8f9cb7e, type: 2}
+  playerSurrenderEvent: {fileID: 11400000, guid: cbbf3cb420d6a7e4bbef4d8fab788987, type: 2}
+  newRoundEvent: {fileID: 11400000, guid: 5f2af013c234153459d1caa2369bc5e9, type: 2}
+  InsuranceLostEvent: {fileID: 11400000, guid: 0ea909eb9eb02104cb6612789946ffc5, type: 2}
+  InsuranceWonEvent: {fileID: 11400000, guid: c9f21573294d4dd4aa85d3cb15f2b97f, type: 2}
   playerHandUI: {fileID: 1608114251}
   dealerHandUI: {fileID: 1350124027}
   deck: {fileID: 736933642}
@@ -8645,7 +8797,6 @@ MonoBehaviour:
   betArea: {fileID: 434891809}
   insuranceArea: {fileID: 175534526}
   chipSystem: {fileID: 53764112}
-  sFX: {fileID: 1710332510}
 --- !u!4 &623056401
 Transform:
   m_ObjectHideFlags: 0
@@ -8819,6 +8970,9 @@ GameObject:
   - component: {fileID: 669439601}
   - component: {fileID: 669439600}
   - component: {fileID: 669439599}
+  - component: {fileID: 669439602}
+  - component: {fileID: 669439604}
+  - component: {fileID: 669439603}
   m_Layer: 5
   m_Name: Screen Flash
   m_TagString: Untagged
@@ -8896,6 +9050,90 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 669439597}
   m_CullTransparentMesh: 1
+--- !u!114 &669439602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 669439597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54cec36db5612784fba096d357a8393b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventListener
+  gameEvent: {fileID: 11400000, guid: 7658e4d3a55047046bb41fd9d42509a6, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 669439599}
+        m_TargetAssemblyTypeName: ScreenFlash, Assembly-CSharp
+        m_MethodName: WinFlash
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &669439603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 669439597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54cec36db5612784fba096d357a8393b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventListener
+  gameEvent: {fileID: 11400000, guid: e2ed16bef2979f243852c75352836cad, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 669439599}
+        m_TargetAssemblyTypeName: ScreenFlash, Assembly-CSharp
+        m_MethodName: BustFlash
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &669439604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 669439597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54cec36db5612784fba096d357a8393b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventListener
+  gameEvent: {fileID: 11400000, guid: ce72a2b52dcad354897051048b7ffb77, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 669439599}
+        m_TargetAssemblyTypeName: ScreenFlash, Assembly-CSharp
+        m_MethodName: BlackjackFlash
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &724188505
 GameObject:
   m_ObjectHideFlags: 0
@@ -9087,6 +9325,7 @@ GameObject:
   m_Component:
   - component: {fileID: 736933641}
   - component: {fileID: 736933642}
+  - component: {fileID: 736933643}
   m_Layer: 5
   m_Name: CardDeck
   m_TagString: Untagged
@@ -9195,7 +9434,46 @@ MonoBehaviour:
   dealerHandUI: {fileID: 1350124027}
   playerHand: {fileID: 1608114252}
   dealerHand: {fileID: 1350124028}
-  sFX: {fileID: 1710332510}
+--- !u!114 &736933643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 736933640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54cec36db5612784fba096d357a8393b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventListener
+  gameEvent: {fileID: 11400000, guid: 5f2af013c234153459d1caa2369bc5e9, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 736933642}
+        m_TargetAssemblyTypeName: CardDeck, Assembly-CSharp
+        m_MethodName: InitDeck
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 736933642}
+        m_TargetAssemblyTypeName: CardDeck, Assembly-CSharp
+        m_MethodName: Shuffle
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &743296108
 GameObject:
   m_ObjectHideFlags: 0
@@ -12667,6 +12945,7 @@ GameObject:
   - component: {fileID: 1350124026}
   - component: {fileID: 1350124027}
   - component: {fileID: 1350124028}
+  - component: {fileID: 1350124029}
   m_Layer: 5
   m_Name: Dealer Area
   m_TagString: Untagged
@@ -12721,6 +13000,46 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DealerHand
   cards: []
   handType: 0
+--- !u!114 &1350124029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1350124025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54cec36db5612784fba096d357a8393b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventListener
+  gameEvent: {fileID: 11400000, guid: 5f2af013c234153459d1caa2369bc5e9, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1350124028}
+        m_TargetAssemblyTypeName: DealerHand, Assembly-CSharp
+        m_MethodName: ResetHand
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1350124027}
+        m_TargetAssemblyTypeName: DealerHandUI, Assembly-CSharp
+        m_MethodName: ClearHand
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1360964281
 GameObject:
   m_ObjectHideFlags: 0
@@ -14561,6 +14880,7 @@ GameObject:
   - component: {fileID: 1608114250}
   - component: {fileID: 1608114251}
   - component: {fileID: 1608114252}
+  - component: {fileID: 1608114253}
   m_Layer: 5
   m_Name: Player Area
   m_TagString: Untagged
@@ -14615,8 +14935,48 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHand
   cards: []
   handType: 0
-  screenFlash: {fileID: 669439599}
-  sFX: {fileID: 1710332510}
+  playerBlackjackEvent: {fileID: 11400000, guid: ce72a2b52dcad354897051048b7ffb77, type: 2}
+  playerBustEvent: {fileID: 11400000, guid: e2ed16bef2979f243852c75352836cad, type: 2}
+--- !u!114 &1608114253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1608114249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54cec36db5612784fba096d357a8393b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventListener
+  gameEvent: {fileID: 11400000, guid: 5f2af013c234153459d1caa2369bc5e9, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1608114251}
+        m_TargetAssemblyTypeName: PlayerHandUI, Assembly-CSharp
+        m_MethodName: ClearHand
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1608114252}
+        m_TargetAssemblyTypeName: PlayerHand, Assembly-CSharp
+        m_MethodName: ResetHand
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1627397199
 GameObject:
   m_ObjectHideFlags: 0
@@ -15459,6 +15819,13 @@ GameObject:
   - component: {fileID: 1710332509}
   - component: {fileID: 1710332511}
   - component: {fileID: 1710332510}
+  - component: {fileID: 1710332512}
+  - component: {fileID: 1710332513}
+  - component: {fileID: 1710332514}
+  - component: {fileID: 1710332515}
+  - component: {fileID: 1710332517}
+  - component: {fileID: 1710332516}
+  - component: {fileID: 1710332518}
   m_Layer: 0
   m_Name: SFX
   m_TagString: Untagged
@@ -15598,6 +15965,202 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1710332512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1710332508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54cec36db5612784fba096d357a8393b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventListener
+  gameEvent: {fileID: 11400000, guid: 7658e4d3a55047046bb41fd9d42509a6, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1710332510}
+        m_TargetAssemblyTypeName: SFXManager, Assembly-CSharp
+        m_MethodName: PlayWin
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1710332513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1710332508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54cec36db5612784fba096d357a8393b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventListener
+  gameEvent: {fileID: 11400000, guid: 805f4ad201eb4b04cbd3e830fb0e51cf, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1710332510}
+        m_TargetAssemblyTypeName: SFXManager, Assembly-CSharp
+        m_MethodName: PlayLose
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1710332514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1710332508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54cec36db5612784fba096d357a8393b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventListener
+  gameEvent: {fileID: 11400000, guid: c0524762256b0eb46b27eddaa8f9cb7e, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1710332510}
+        m_TargetAssemblyTypeName: SFXManager, Assembly-CSharp
+        m_MethodName: PlayPush
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1710332515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1710332508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54cec36db5612784fba096d357a8393b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventListener
+  gameEvent: {fileID: 11400000, guid: cbbf3cb420d6a7e4bbef4d8fab788987, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1710332510}
+        m_TargetAssemblyTypeName: SFXManager, Assembly-CSharp
+        m_MethodName: PlayLose
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1710332516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1710332508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54cec36db5612784fba096d357a8393b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventListener
+  gameEvent: {fileID: 11400000, guid: c9f21573294d4dd4aa85d3cb15f2b97f, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1710332510}
+        m_TargetAssemblyTypeName: SFXManager, Assembly-CSharp
+        m_MethodName: PlayWin
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1710332517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1710332508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54cec36db5612784fba096d357a8393b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventListener
+  gameEvent: {fileID: 11400000, guid: 0ea909eb9eb02104cb6612789946ffc5, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1710332510}
+        m_TargetAssemblyTypeName: SFXManager, Assembly-CSharp
+        m_MethodName: PlayLose
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1710332518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1710332508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54cec36db5612784fba096d357a8393b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventListener
+  gameEvent: {fileID: 11400000, guid: ce72a2b52dcad354897051048b7ffb77, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1710332510}
+        m_TargetAssemblyTypeName: SFXManager, Assembly-CSharp
+        m_MethodName: PlayBlackjack
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1717060588
 GameObject:
   m_ObjectHideFlags: 0

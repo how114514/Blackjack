@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ChipViewManager : MonoBehaviour
 {
+    [Header("SFX")]
+    [SerializeField] private SFXManager sFX;
+
     [Header("Chip View")]
     [SerializeField] private ChipView chipPrefab;
     [SerializeField] private List<ChipView> chipViews = new();
@@ -23,6 +26,8 @@ public class ChipViewManager : MonoBehaviour
     [Header("Chip Targets")]
     [SerializeField] private Transform playerIncomeTarget;
     [SerializeField] private Transform playerPayoutTarget;
+
+    
 
     private void Awake()
     {
@@ -50,6 +55,8 @@ public class ChipViewManager : MonoBehaviour
             chipView.Init(chip);
             chipViews.Add(chipView);
         }
+
+        sFX.PlayChip();
 
         yield return StartCoroutine(StackChips());
     }

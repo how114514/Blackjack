@@ -22,10 +22,7 @@ public class SFXManager : MonoBehaviour
         Instance = this;
     }
 
-    public void PlayDeal() => Play(dealClip);
     public void PlayChip() => Play(chipClip);
-    public void PlayFlip() => Play(flipClip);
-
     public void PlayWin() => Play(winClip);
     public void PlayLose() => Play(loseClip);
     public void PlayBlackjack() => Play(blackjackClip);

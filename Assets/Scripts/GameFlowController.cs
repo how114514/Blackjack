@@ -3,6 +3,15 @@ using UnityEngine;
 
 public class GameFlowController : MonoBehaviour
 {
+    [Header("Event")]
+    [SerializeField] private GameEventSO playerWinEvent;
+    [SerializeField] private GameEventSO playerLoseEvent;
+    [SerializeField] private GameEventSO pushEvent;
+    [SerializeField] private GameEventSO playerSurrenderEvent;
+    [SerializeField] private GameEventSO newRoundEvent;
+    [SerializeField] private GameEventSO InsuranceLostEvent;
+    [SerializeField] private GameEventSO InsuranceWonEvent;
+
     [Header("UI")]
     [SerializeField] private PlayerHandUI playerHandUI;
     [SerializeField] private DealerHandUI dealerHandUI;
@@ -28,10 +37,9 @@ public class GameFlowController : MonoBehaviour
     [Header("Chip")]
     [SerializeField] private ChipSystem chipSystem;
 
-    [SerializeField] private SFXManager sFX;
-
     private bool isSurrendered;
     private bool isInsurancePurchased;
+    private bool isHited;
 
     private void Start()
     {
@@ -59,18 +67,13 @@ public class GameFlowController : MonoBehaviour
     private IEnumerator StartRound()
     {
         isInsurancePurchased = false;
+        isHited = false;
 
         betArea.SetActive(false);
+
         yield return StartCoroutine(PayoutPhase());
 
-        playerHand.ResetHand();
-        dealerHand.ResetHand();
-
-        playerHandUI.ClearHand();
-        dealerHandUI.ClearHand();
-
-        deck.InitDeck();
-        deck.Shuffle();
+        newRoundEvent.Raise();
 
         yield return StartCoroutine(deck.DealCard(DealTarget.Player, true));
         yield return StartCoroutine(deck.DealCard(DealTarget.Dealer, true));
@@ -98,55 +101,53 @@ public class GameFlowController : MonoBehaviour
         DisablePlayerActionButtons();
 
         yield return StartCoroutine(dealerHandUI.cardViews[1].FlipAnimation(dealerHand.cards[1]));
-        deck.PlayFlipSFX();
 
         while (dealerHand.CalculateHandValue() < 17)
         {
             yield return StartCoroutine(deck.DealCard(DealTarget.Dealer, true));
         }
 
-        yield return StartCoroutine(ResolveRound());
+        ResolveRound();
     }
 
     //结算当前回合
-    private IEnumerator ResolveRound()
+    private void ResolveRound()
     {
         if (isSurrendered)
         {
-            yield return StartCoroutine(chipSystem.Surrender());
+            playerSurrenderEvent.Raise();
+
             isSurrendered = false;
             startButton.SetActive(true);
-
-            yield break;
         }
 
         HandType playerType = playerHand.handType;
         HandType dealerType = dealerHand.handType;
 
         if (playerType == HandType.Bust)
-            yield return StartCoroutine(chipSystem.LoseBet());
+            playerLoseEvent.Raise();
         else if (dealerType == HandType.Bust)
-            yield return StartCoroutine(chipSystem.WinBet());
+            playerWinEvent.Raise();
         else if(playerType == HandType.Blackjack)
         {
             if (dealerType == HandType.Blackjack)
-                yield return StartCoroutine(chipSystem.Push());
+                pushEvent.Raise();
             else
-                yield return StartCoroutine(chipSystem.WinBet());
+                playerWinEvent.Raise();
         }
         else if (dealerType == HandType.Blackjack)
-            yield return StartCoroutine(chipSystem.LoseBet());
+            playerLoseEvent.Raise();
         else
         {
             int playerValue = playerHand.CalculateHandValue();
             int dealerValue = dealerHand.CalculateHandValue();
 
             if (playerValue > dealerValue)
-                yield return StartCoroutine(chipSystem.WinBet());
+                playerWinEvent.Raise();
             else if (playerValue < dealerValue)
-                yield return StartCoroutine(chipSystem.LoseBet());
+                playerLoseEvent.Raise();
             else
-                yield return StartCoroutine(chipSystem.Push());
+                pushEvent.Raise();
         }
 
         startButton.SetActive(true);
@@ -161,13 +162,15 @@ public class GameFlowController : MonoBehaviour
     //玩家要牌流程
     public IEnumerator PlayerHit()
     {
+        isHited = true;
+
         yield return StartCoroutine(deck.DealCard(DealTarget.Player, true));
 
         if (playerHand.handType == HandType.Bust)
         {
             DisablePlayerActionButtons();
 
-            yield return StartCoroutine(ResolveRound());
+            ResolveRound();
         }
     }
 
@@ -190,7 +193,8 @@ public class GameFlowController : MonoBehaviour
 
         yield return StartCoroutine(PlayerHit());
 
-        StartDealerTurn();
+        if(playerHand.handType != HandType.Bust)
+            StartDealerTurn();
     }
 
     //玩家选择投降
@@ -200,7 +204,7 @@ public class GameFlowController : MonoBehaviour
 
         DisablePlayerActionButtons();
 
-        StartCoroutine(ResolveRound());
+        ResolveRound();
     }
 
     //玩家选择保险
@@ -229,14 +233,14 @@ public class GameFlowController : MonoBehaviour
         if (dealerHand.handType == HandType.Blackjack)
         {
             yield return StartCoroutine(dealerHandUI.cardViews[1].FlipAnimation(dealerHand.cards[1]));
-            deck.PlayFlipSFX();
 
-            yield return StartCoroutine(chipSystem.PayInsurance());
+            InsuranceWonEvent.Raise();
+
             startButton.SetActive(true);
         }
         else
         {
-            sFX.PlayLose();
+            InsuranceLostEvent.Raise();
             EnablePlayerActionButtons();
         }
     }
@@ -259,7 +263,7 @@ public class GameFlowController : MonoBehaviour
         standButton.SetActive(true);
         surrenderButton.SetActive(true);
 
-        if (dealerHand.cards[0].cardRank == Rank.Ace || !isInsurancePurchased)
+        if (dealerHand.cards[0].cardRank == Rank.Ace || !isInsurancePurchased || !isHited)
             insuranceButton.SetActive(true);
     }
 }
