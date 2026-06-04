@@ -11,9 +11,9 @@ public class GameFlowController : MonoBehaviour
     [SerializeField] private GameEventSO newRoundEvent;
     [SerializeField] private GameEventSO InsuranceLostEvent;
     [SerializeField] private GameEventSO InsuranceWonEvent;
+    [SerializeField] private GameEventSO loadMenuEvent;
 
     [Header("UI")]
-    [SerializeField] private PlayerHandUI playerHandUI;
     [SerializeField] private DealerHandUI dealerHandUI;
 
     [Header("Card")]
@@ -32,6 +32,7 @@ public class GameFlowController : MonoBehaviour
     [Header("Area")]
     [SerializeField] private GameObject betArea;
     [SerializeField] private GameObject insuranceArea;
+    [SerializeField] private GameObject gameOverPanel;
 
 
     [Header("Chip")]
@@ -243,6 +244,18 @@ public class GameFlowController : MonoBehaviour
             InsuranceLostEvent.Raise();
             EnablePlayerActionButtons();
         }
+    }
+
+    //显示游戏结束界面
+    public void ShowGameOver()
+    {
+        gameOverPanel.SetActive(true);
+    }
+
+    //返回主菜单
+    public void BackToMenu()
+    {
+        loadMenuEvent.Raise();
     }
 
     //关闭玩家操作按钮

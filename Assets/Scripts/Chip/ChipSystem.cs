@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class ChipSystem : MonoBehaviour
 {
+    [Header("Events")]
+    [SerializeField] private GameEventSO gameOverEvent;
+
     public int playerChip;
     public int currentBet;
     public int currentInsuranceBet;
@@ -84,6 +87,8 @@ public class ChipSystem : MonoBehaviour
     {
         currentBet = 0;
         currentInsuranceBet = 0;
+
+        CheckGameOver();
     }
 
     //处理玩家平局的情况，首先根据当前投注金额构建筹码数据列表，然后调用ChipViewManager生成收入筹码的动画，最后更新玩家筹码数量并播放文本动画
@@ -236,5 +241,13 @@ public class ChipSystem : MonoBehaviour
         }
 
         playerChipText.text = to.ToString();
+    }
+
+    private void CheckGameOver()
+    {
+        if (playerChip <= 0)
+        {
+            gameOverEvent.Raise();
+        }
     }
 }
