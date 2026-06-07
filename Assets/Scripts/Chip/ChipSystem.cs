@@ -7,6 +7,7 @@ public class ChipSystem : MonoBehaviour
 {
     [Header("Events")]
     [SerializeField] private GameEventSO gameOverEvent;
+    [SerializeField] private IntEventSO updateMoneyEvent;
 
     public int playerChip;
     public int currentBet;
@@ -125,6 +126,8 @@ public class ChipSystem : MonoBehaviour
 
         currentBet = 0;
         currentInsuranceBet = 0;
+
+        updateMoneyEvent.Raise(playerChip);
 
         yield return StartCoroutine(AnimateChipText(oldValue, playerChip));
     }

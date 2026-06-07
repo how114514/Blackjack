@@ -13,6 +13,8 @@ public class StatsManager : MonoBehaviour
     public int currentWinStreak;
     public int maxWinStreak;
 
+    public int maxMoney;
+
     public float WinRate => totalRounds > 0 ? (float)totalWins / totalRounds : 0f;
 
     private void Awake()
@@ -54,5 +56,11 @@ public class StatsManager : MonoBehaviour
         surrenderCount++;
 
         AddLoss();
+    }
+
+    public void UpdateMaxMoney(int currentMoney)
+    {
+        if (currentMoney > maxMoney)
+            maxMoney = currentMoney;
     }
 }

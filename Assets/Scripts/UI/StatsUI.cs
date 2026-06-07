@@ -10,6 +10,7 @@ public class StatsUI : MonoBehaviour
     public TMP_Text blackjackCountText;
     public TMP_Text surrenderCountText;
     public TMP_Text maxWinStreakText;
+    public TMP_Text maxMoneyText;
 
     private StatsManager stats;
 
@@ -39,5 +40,7 @@ public class StatsUI : MonoBehaviour
             winRate = (float)stats.totalWins / stats.totalRounds * 100f;
         }
         winRateText.text = "胜率：" + winRate.ToString("F1") + "%";
+
+        maxMoneyText.text = "最大金额：" + stats.maxMoney;
     }
 }

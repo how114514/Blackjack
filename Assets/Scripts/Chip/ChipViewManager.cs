@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ChipViewManager : MonoBehaviour
 {
-    [Header("SFX")]
-    [SerializeField] private SFXManager sFX;
+    [Header("Event")]
+    [SerializeField] private GameEventSO adjustChipEvent;
 
     [Header("Chip View")]
     [SerializeField] private ChipView chipPrefab;
@@ -56,7 +56,7 @@ public class ChipViewManager : MonoBehaviour
             chipViews.Add(chipView);
         }
 
-        sFX.PlayChip();
+        adjustChipEvent.Raise();
 
         yield return StartCoroutine(StackChips());
     }
