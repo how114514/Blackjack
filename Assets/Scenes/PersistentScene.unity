@@ -380,6 +380,8 @@ GameObject:
   m_Component:
   - component: {fileID: 338179495}
   - component: {fileID: 338179496}
+  - component: {fileID: 338179498}
+  - component: {fileID: 338179497}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -418,6 +420,63 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
   sfxSource: {fileID: 1710332511}
   bgmSource: {fileID: 1782689570}
+  mixer: {fileID: 24100000, guid: cd4ab103e0a95154493254d0abb18cb5, type: 2}
+--- !u!114 &338179497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 338179493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bef543c12be527f4182b5b28087eab87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FloatEventListener
+  gameEvent: {fileID: 11400000, guid: c7edd570d7a9f574e83e90b18e12c4b8, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 338179496}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: SetSFXVolume
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &338179498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 338179493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bef543c12be527f4182b5b28087eab87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FloatEventListener
+  gameEvent: {fileID: 11400000, guid: 6a31e68a7ae31e44b9db89fa52eb5beb, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 338179496}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: SetBGMVolume
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &381602880
 GameObject:
   m_ObjectHideFlags: 0
@@ -714,7 +773,7 @@ AudioSource:
   m_GameObject: {fileID: 1710332508}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -6800078688164779243, guid: cd4ab103e0a95154493254d0abb18cb5, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
@@ -1067,7 +1126,7 @@ AudioSource:
   m_GameObject: {fileID: 1782689568}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -7846494895474075202, guid: cd4ab103e0a95154493254d0abb18cb5, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: f0f17bd334bde9143962721c20ca4318, type: 3}
   m_PlayOnAwake: 1

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
@@ -9,4 +10,18 @@ public class AudioManager : MonoBehaviour
 
     [Header("BGM")]
     [SerializeField] private AudioSource bgmSource;
+
+    [SerializeField] private AudioMixer mixer;
+
+    public void SetBGMVolume(float value)
+    {
+        float dB = Mathf.Log10(Mathf.Clamp(value, 0.0001f, 1f)) * 20f;
+        mixer.SetFloat("BGMVolume", dB);
+    }
+
+    public void SetSFXVolume(float value)
+    {
+        float dB = Mathf.Log10(Mathf.Clamp(value, 0.0001f, 1f)) * 20f;
+        mixer.SetFloat("SFXVolume", dB);
+    }
 }

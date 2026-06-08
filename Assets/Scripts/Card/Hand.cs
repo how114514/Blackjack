@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Hand : MonoBehaviour
@@ -31,14 +32,14 @@ public class Hand : MonoBehaviour
     {
         cards.Add(card);
 
-        EvaluateHand();
+        int value = CalculateHandValue();
+
+        EvaluateHand(value);
     }
 
     //评估手牌类型，根据当前的牌和点数来确定是正常、黑杰克还是爆牌
-    public virtual void EvaluateHand()
+    public virtual void EvaluateHand(int value)
     {
-        int value = CalculateHandValue();
-
         if (cards.Count == 2 && value == 21)
             handType = HandType.Blackjack;
         else if (value > 21)

@@ -6,10 +6,7 @@ public class SFXManager : MonoBehaviour
 
     [SerializeField] private AudioSource sfxSource;
 
-    [Header("Card SFX")]
-    [SerializeField] private AudioClip dealClip;
     [SerializeField] private AudioClip chipClip;
-    [SerializeField] private AudioClip flipClip;
 
     [Header("Result SFX")]
     [SerializeField] private AudioClip winClip;
