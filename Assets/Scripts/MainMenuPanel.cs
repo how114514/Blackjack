@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class MainMenuPanel : MonoBehaviour
@@ -11,6 +12,8 @@ public class MainMenuPanel : MonoBehaviour
 
     public void OnExitGameButtonClicked()
     {
+        SaveManager.Instance.SaveStats();
+
         Application.Quit();
     }
 }

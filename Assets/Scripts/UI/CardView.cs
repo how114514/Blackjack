@@ -7,9 +7,15 @@ public class CardView : MonoBehaviour
     [SerializeField] private Image image;
     [SerializeField] private CardSFX cardSFX;
 
+    public DealTarget dealTarget;
+    [SerializeField] private GameEventSO dealerCardFlipEvent;
+
     //卡牌翻转动画
     public IEnumerator FlipAnimation(CardDataSO cardData)
     {
+        if(dealTarget == DealTarget.Dealer)
+            dealerCardFlipEvent.Raise();
+
         cardSFX.PlayFlip();
 
         float duration = 0.2f;

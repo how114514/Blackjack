@@ -92,6 +92,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardView
   image: {fileID: 7056024120568649915}
   cardSFX: {fileID: 7475246273162569443}
+  dealTarget: 0
+  dealerCardFlipEvent: {fileID: 11400000, guid: 60888607e014ab742b7db50e916a035a, type: 2}
 --- !u!82 &5245872813924666245
 AudioSource:
   m_ObjectHideFlags: 0

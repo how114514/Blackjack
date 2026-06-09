@@ -67,6 +67,7 @@ public class CardDeck : MonoBehaviour
         }
 
         CardView cardView = Instantiate(cardPrefab, area);
+        cardView.dealTarget = target;
         RectTransform rect = cardView.transform as RectTransform;
 
         hand.AddCard(card);

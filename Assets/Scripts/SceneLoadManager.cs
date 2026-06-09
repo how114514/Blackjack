@@ -8,18 +8,16 @@ public class SceneLoadManager : MonoBehaviour
     [SerializeField] private AssetReference menuScene;
     [SerializeField] private AssetReference gameScene;
 
-    private AssetReference currentScene;
+    [SerializeField] private SceneFader sceneFader;
 
-    private async Awaitable LoadSceneTask()
+    private async Awaitable LoadSceneTask(AssetReference sceneReference)
     {
-        var handle = currentScene.LoadSceneAsync(LoadSceneMode.Additive);
+        var handle = sceneReference.LoadSceneAsync(LoadSceneMode.Additive);
 
         await handle.Task;
 
         if (handle.Status == AsyncOperationStatus.Succeeded)
-        {
             SceneManager.SetActiveScene(handle.Result.Scene);
-        }
     }
 
     private async Awaitable UnloadSceneTask()
@@ -27,26 +25,28 @@ public class SceneLoadManager : MonoBehaviour
         Scene activeScene = SceneManager.GetActiveScene();
 
         if (activeScene.isLoaded)
-        {
             await Awaitable.FromAsyncOperation(SceneManager.UnloadSceneAsync(activeScene));
-        }
     }
 
     public async void LoadGame()
     {
+        await sceneFader.FadeIn();
+
         await UnloadSceneTask();
 
-        currentScene = gameScene;
+        await LoadSceneTask(gameScene);
 
-        await LoadSceneTask();
+        await sceneFader.FadeOut();
     }
 
     public async void LoadMenu()
     {
+        await sceneFader.FadeIn();
+
         await UnloadSceneTask();
 
-        currentScene = menuScene;
+        await LoadSceneTask(menuScene);
 
-        await LoadSceneTask();
+        await sceneFader.FadeOut();
     }
 }
