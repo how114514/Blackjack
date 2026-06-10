@@ -8871,7 +8871,6 @@ GameObject:
   - component: {fileID: 669439599}
   - component: {fileID: 669439602}
   - component: {fileID: 669439604}
-  - component: {fileID: 669439603}
   m_Layer: 5
   m_Name: Screen Flash
   m_TagString: Untagged
@@ -8968,34 +8967,6 @@ MonoBehaviour:
       - m_Target: {fileID: 669439599}
         m_TargetAssemblyTypeName: ScreenFlash, Assembly-CSharp
         m_MethodName: WinFlash
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &669439603
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 669439597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54cec36db5612784fba096d357a8393b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EventListener
-  gameEvent: {fileID: 11400000, guid: e2ed16bef2979f243852c75352836cad, type: 2}
-  response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 669439599}
-        m_TargetAssemblyTypeName: ScreenFlash, Assembly-CSharp
-        m_MethodName: BustFlash
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -15343,7 +15314,6 @@ MonoBehaviour:
   cards: []
   handType: 0
   playerBlackjackEvent: {fileID: 11400000, guid: ce72a2b52dcad354897051048b7ffb77, type: 2}
-  playerBustEvent: {fileID: 11400000, guid: e2ed16bef2979f243852c75352836cad, type: 2}
   scoreText: {fileID: 1698704127}
 --- !u!114 &1608114253
 MonoBehaviour:

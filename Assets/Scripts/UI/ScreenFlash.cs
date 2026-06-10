@@ -4,9 +4,16 @@ using UnityEngine.UI;
 
 public class ScreenFlash : MonoBehaviour
 {
+    public static ScreenFlash instance;
+
     [SerializeField] private Image flashImage;
 
     private Coroutine current;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     public void BustFlash()
     {

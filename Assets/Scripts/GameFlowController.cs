@@ -9,7 +9,6 @@ public class GameFlowController : MonoBehaviour
     [SerializeField] private GameEventSO pushEvent;
     [SerializeField] private GameEventSO playerSurrenderEvent;
     [SerializeField] private GameEventSO newRoundEvent;
-    [SerializeField] private GameEventSO InsuranceLostEvent;
     [SerializeField] private GameEventSO InsuranceWonEvent;
     [SerializeField] private GameEventSO loadMenuEvent;
 
@@ -215,7 +214,7 @@ public class GameFlowController : MonoBehaviour
         }
         else
         {
-            InsuranceLostEvent.Raise();
+            SFXManager.Instance.PlayLose();
             uiManager.EnablePlayerActionButtons(false);
         }
     }

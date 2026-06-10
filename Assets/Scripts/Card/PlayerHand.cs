@@ -4,7 +4,6 @@ using UnityEngine;
 public class PlayerHand : Hand
 {
     [SerializeField] private GameEventSO playerBlackjackEvent;
-    [SerializeField] private GameEventSO playerBustEvent;
 
     [SerializeField] private TMP_Text scoreText;
 
@@ -30,7 +29,7 @@ public class PlayerHand : Hand
         else if (value > 21)
         {
             handType = HandType.Bust;
-            playerBustEvent.Raise();
+            ScreenFlash.instance.BustFlash();
         }
         else
             handType = HandType.Normal;
